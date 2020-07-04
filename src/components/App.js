@@ -1,46 +1,27 @@
 import React from 'react';
+import axios from 'axios';
+import { Route, Switch } from 'react-router-dom';
+import HomePage from './HomePage';
+import ShowData from './ShowData';
 
 // Greet the user
 
-const App = () => {
-	return (
-		<div>
-			<Hero />
-			<Sidebar />
-			<ShowDataButton />
-		</div>
-	);
-};
+class App extends React.Component {
+	async componentDidMount() {
+		const response = await axios.get('https://api.covid19api.com/summary');
+		console.log(response);
+	}
 
-const Hero = () => {
-	return (
-		<div>
+	render() {
+		return (
 			<div>
-				<h1>Coronavirus COVID-19 Data</h1>
+				<Switch>
+					<Route exact path="/" component={HomePage} />
+					<Route path="/data" component={ShowData} />
+				</Switch>
 			</div>
-		</div>
-	);
-};
-
-const Sidebar = () => {
-	return (
-		<div>
-			<h2>Metadata</h2>
-			<ul>
-				<li>Author</li>
-				<li>API</li>
-				<li>Source</li>
-			</ul>
-		</div>
-	);
-};
-
-const ShowDataButton = () => {
-	return (
-		<div>
-			<button>Show Data</button>
-		</div>
-	);
-};
+		);
+	}
+}
 
 export default App;
